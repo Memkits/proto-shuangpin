@@ -23,21 +23,7 @@
                   {} $ :content "\""
               div
                 {} $ :style (merge ui/global ui/row)
-                textarea $ {}
-                  :value $ :content state
-                  :placeholder "\"Content"
-                  :style $ merge ui/expand ui/textarea
-                    {} $ :height 320
-                  :on-input $ fn (e d!)
-                    d! cursor $ assoc state :content (:value e)
-                =< 8 nil
-                div
-                  {} $ :style ui/expand
-                  comp-md "|This is some content with `code`"
-                  =< |8px nil
-                  button $ {} (:style ui/button) (:inner-text "\"Run")
-                    :on-click $ fn (e d!)
-                      println $ :content state
+                <> "\"TODO render list"
                 when dev? $ comp-reel (>> states :reel) reel ({})
     |app.schema $ {}
       :ns $ quote (ns app.schema)
@@ -118,4 +104,4 @@
         |dev? $ quote
           def dev? $ = "\"dev" (get-env "\"mode")
         |site $ quote
-          def site $ {} (:storage-key "\"workflow")
+          def site $ {} (:storage-key "\"proto-shuangpin")
