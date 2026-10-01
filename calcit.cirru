@@ -5,7 +5,7 @@
   :entries $ {} $ :default
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
-      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
+      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/
       :type-slots $ {} $ :dispatch-op |app.schema/Op
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
@@ -43,7 +43,7 @@
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
             let
-                store $ decode-map-as (&map:get reel :store) app.schema/Store
+                store $ assert-type (&map:get reel :store) 'app.schema/Store
                 states store.:states
                 cursor $ assert-type (&map:get states :cursor) (:: 'List 'Dynamic)
                 state $ assert-type
@@ -233,14 +233,13 @@
           :schema $ :: 'Map 'Tag 'Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
-          :require ([] respo-ui.core :as ui)
-            [] respo-ui.core :refer $ [] hsl
-            [] respo.core :refer $ [] defcomp defeffect list-> <> >> div button textarea span input
-            [] respo.comp.space :refer $ [] =<
-            [] reel.comp.reel :refer $ [] comp-reel
-            [] respo-md.comp.md :refer $ [] comp-md
-            [] app.config :refer $ [] dev? initial-keyboard vowel-keyboard tone-keyboard
-            [] app.schema :refer $ [] Op KeyboardInput
+          :require (respo-ui.core :as ui)
+            respo-ui.core :refer $ hsl
+            respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input
+            respo.comp.space :refer $ =<
+            reel.comp.reel :refer $ comp-reel
+            app.config :refer $ dev? initial-keyboard vowel-keyboard tone-keyboard
+            app.schema :refer $ Op KeyboardInput
     'app.config $ %{} 'FileEntry
       :defs $ {}
         'dev? $ %{} 'CodeEntry (:doc |)
@@ -301,9 +300,11 @@
             add-event-listener! |beforeunload $ fn (_) (persist-storage!)
             repeat! 60 persist-storage!
             match
-              storage-get $ config/site :storage-key
+              storage-get $
+                get config/site :storage-key
+                , .unwrap
               (:some raw)
-                dispatch! $ app.schema/Op :hydrate-storage $ decode-map-as (parse-cirru-edn raw) app.schema/Store
+                dispatch! $ app.schema/Op :hydrate-storage $ app.schema/decode-store (parse-cirru-edn raw)
               (:none) &unit
             println "|App started."
           :examples $ []
@@ -317,8 +318,10 @@
           :schema $ :: 'js-ffi.browser/DomElementHost
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
-            storage-set! (config/site :storage-key)
-              format-cirru-edn $ decode-map-as (&map:get @*reel :store) app.schema/Store
+            storage-set!
+                get config/site :storage-key
+                , .unwrap
+              format-cirru-edn $ assert-type (&map:get @*reel :store) 'app.schema/Store
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -354,16 +357,16 @@
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
-            [] respo.core :refer $ [] render! clear-cache!
-            [] app.comp.container :refer $ [] comp-container
-            [] app.updater :refer $ [] updater
-            [] reel.util :refer $ [] listen-devtools!
-            [] reel.core :refer $ [] reel-updater refresh-reel
-            [] reel.schema :as reel-schema
-            [] app.config :as config
-            [] |./calcit.build-errors :default build-errors
-            [] |bottom-tip :default hud!
-            [] js-ffi.browser :refer $ [] query-selector add-event-listener! set-interval! storage-get storage-set!
+            respo.core :refer $ render! clear-cache!
+            app.comp.container :refer $ comp-container
+            app.updater :refer $ updater
+            reel.util :refer $ listen-devtools!
+            reel.core :refer $ reel-updater refresh-reel
+            reel.schema :as reel-schema
+            app.config :as config
+            |./calcit.build-errors.mjs :default build-errors
+            |bottom-tip :default hud!
+            js-ffi.browser :refer $ query-selector add-event-listener! set-interval! storage-get storage-set!
     'app.schema $ %{} 'FileEntry
       :defs $ {}
         'KeyboardInput $ %{} 'CodeEntry (:doc |)
@@ -394,6 +397,14 @@
             :states $ :: 'Map 'Tag 'Dynamic
           :examples $ []
           :schema $ :: 'StructDef
+        'decode-store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn decode-store (raw)
+            decode-map-as
+              {} $ :states $ option:unwrap (get raw :states)
+              , Store
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'app.schema/Store)
+            :args $ [] 'Dynamic
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states $ {} $ :cursor ([])
@@ -407,8 +418,8 @@
           :code $ quote $ defn updater (store op op-id op-time)
             match op
               (:states cursor data)
-                decode-map-as (update-states store cursor data) app.schema/Store
-              (:hydrate-storage data) (decode-map-as data app.schema/Store)
+                assert-type (update-states store cursor data) 'app.schema/Store
+              (:hydrate-storage data) (assert-type data 'app.schema/Store)
               _ $ do (println "|unknown op:" op) store
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'app.schema/Store)
