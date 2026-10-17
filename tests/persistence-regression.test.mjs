@@ -30,7 +30,14 @@ test("actual persistence saves a Store that can be restored without decoding Str
   const storageDescriptor = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
   const writes = [];
   try {
-    const storage = { setItem(key, value) { writes.push([key, value]); } };
+    const storage = {
+      get length() { return writes.length; },
+      getItem() { return null; },
+      key() { return null; },
+      setItem(key, value) { writes.push([key, value]); },
+      removeItem() {},
+      clear() { writes.length = 0; },
+    };
     globalThis.window = { localStorage: storage };
     Object.defineProperty(globalThis, "localStorage", { configurable: true, value: storage });
     main.persist_storage_$x_();

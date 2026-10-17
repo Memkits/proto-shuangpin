@@ -5,27 +5,22 @@ import { store, decode_store } from "../js-out/app.schema.mjs";
 import { updater } from "../js-out/app.updater.mjs";
 import { comp_container, mark_vowel, markup_tone } from "../js-out/app.comp.container.mjs";
 import { make_string } from "../js-out/respo.render.html.mjs";
-import { component_$q_, component_tree } from "../js-out/respo.util.detect.mjs";
-import { reel } from "../js-out/reel.schema.mjs";
+import { component_$q_, component_tree, element_event, element_children, child_pair_value } from "../js-out/respo.util.detect.mjs";
+import { new_reel } from "../js-out/reel.typed.mjs";
 const t = c.init_tags(["store", "base", "states", "data", "inputs", "buffer", "keyboard", "event", "click", "children", "cursor"]);
 const map = c._$n__$M_;
 const get = (x, key) => c.option_$o_unwrap(c.get(x, key));
-const nth = (x, i) => c.option_$o_unwrap(c.nth(x, i));
 function buttons(node, found = []) {
   if (component_$q_(node)) return buttons(c.option_$o_unwrap(component_tree(node)), found);
-  const event = c.get(node, t.event);
-  if (c.option_$o_some_$q_(event)) {
-    const click = c.get(c.option_$o_unwrap(event), t.click);
-    if (c.option_$o_some_$q_(click)) found.push({ label: make_string(node).replace(/<[^>]*>/g, ""), click: c.option_$o_unwrap(click) });
-  }
-  const children = c.get(node, t.children);
-  if (c.option_$o_some_$q_(children)) for (const pair of c.option_$o_unwrap(children).toArray()) buttons(nth(pair, 1), found);
+  const click = c.get(element_event(node), t.click);
+  if (c.option_$o_some_$q_(click)) found.push({ label: make_string(node).replace(/<[^>]*>/g, ""), click: c.option_$o_unwrap(click) });
+  for (const pair of element_children(node).toArray()) buttons(child_pair_value(pair), found);
   return found;
 }
 function session() {
   let db = store;
   let dispatched = 0;
-  const render = () => comp_container(c.assoc(c.assoc(reel, t.store, db), t.base, db));
+  const render = () => comp_container(new_reel(db));
   return {
     get db() { return db; }, get dispatched() { return dispatched; }, render,
     press(label) {
