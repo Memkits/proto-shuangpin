@@ -10,7 +10,20 @@ Demo http://r.tiye.me/Memkits/shuangpin/ .
 
 _TODO_
 
-### Workflow
+### 本轮使用者影响：正式 Calcit 0.30.1
+
+CLI/procs 配对正式 **0.30.1**，依赖固定为已发布的 Reel 0.6.41、UI 0.8.0、Respo 0.16.124、
+JS-FFI 0.2.5，Router 0.8.37 为传递依赖。请重新安装完整图、生成 JS 并刷新，不混用旧 alpha 缓存；
+UI 升级可能有样式差异，不承诺逐像素相同。
+
+修复存档恢复顺序：先读取/解析/解码/hydrate，再首次渲染和关闭/周期保存注册；恢复失败会阻止启动，
+不自动清空/回退/吞错，见 [#13](https://github.com/Memkits/proto-shuangpin/issues/13)。
+键盘布局、三阶段输入/退格、标调算法、存档 key/协议、全屏接口和原七项回归不变。
+已有标调限制 #11 仍存在，不用版本升级或测试通过冒称已修复。
+保留 all-defs/完整 strict，移除被覆盖的五 namespace 重复检查，不新增脚本、强转、预算或 concurrently。
+COS 仅用 action 内置 verify，前端部署路径不变；不合并、部署或发版。
+
+### 历史：此前已合并的源码迁移
 
 https://github.com/calcit-lang/respo-calcit-workflow
 

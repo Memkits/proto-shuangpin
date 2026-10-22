@@ -302,11 +302,6 @@
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
-            render-app!
-            add-watch! *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools! |k dispatch!
-            add-event-listener! |beforeunload $ fn (_) (persist-storage!)
-            repeat! 60 persist-storage!
             match
               storage-get $
                 get config/site :storage-key
@@ -314,6 +309,11 @@
               (:some raw)
                 dispatch! $ app.schema/Op :hydrate-storage $ app.schema/decode-store (parse-cirru-edn raw)
               (:none) &unit
+            render-app!
+            add-watch! *reel :changes $ fn (reel prev) (render-app!)
+            listen-devtools! |k dispatch!
+            add-event-listener! |beforeunload $ fn (_) (persist-storage!)
+            repeat! 60 persist-storage!
             println "|App started."
             , &unit
           :examples $ []
