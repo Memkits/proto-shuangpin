@@ -28,6 +28,12 @@ UI 升级可能有样式差异，不承诺逐像素相同。
 保留 all-defs/完整 strict 和原七项测试，不新增脚本、强转、预算或 concurrently。
 COS 仅用 action 内置 verify，前端部署路径不变；不合并、部署或发版。
 
+本轮官方 Linux 0.30.1 事务 CI 在改写前后均通过原 Node 七项测试（0 失败、0 跳过），
+all-defs 与完整 strict 通过。项目没有附着测试，不把空选择当作额外测试成功。
+同一 CI 静态产物在全新 localhost 实测三阶段输入 `b/a/→`、`bā` 显示及刷新恢复、
+再次输入/退格缓冲，控制台无 warning/error。没有实测全屏、60 秒定时器、HMR 或
+本轮坏存档流程；全屏调用和存档合同仍有原 Node 回归覆盖，不宣称全部拼音组合正确。
+
 ### Workflow
 
 https://github.com/calcit-lang/respo-calcit-workflow

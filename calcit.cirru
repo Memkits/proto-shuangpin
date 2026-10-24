@@ -45,18 +45,18 @@
                   , app.schema/InputState
                 inputs $ :inputs state
               div
-                {} $ :style $ merge ui/global ui/fullscreen ui/column
+                {} $ :style $ .merge ui/global ui/fullscreen ui/column
                 div
-                  {} $ :style $ merge ui/expand
-                    {} (:padding 40) (:font-size 32)
+                  {} $ :style $ .merge ui/expand
+                    {} (:padding |40px) (:font-size |32px)
                   <> $ -> inputs (map markup-tone) (join-string "| ")
                 div
-                  {} $ :style $ merge ui/expand
-                    {} (:padding 16) (:font-size 32)
+                  {} $ :style $ .merge ui/expand
+                    {} (:padding |16px) (:font-size |32px)
                   input $ {} (:value |) (:style ui/input) (:placeholder |TODO)
                 div
-                  {} $ :style $ merge ui/row-center
-                    {} $ :padding 16
+                  {} $ :style $ .merge ui/row-center
+                    {} $ :padding |16px
                   comp-keyboard (>> states :keyboard)
                     fn (input-action)
                       match input-action
@@ -80,12 +80,13 @@
                     {} $ :buffer $ []
                   , app.schema/KeyboardState
                 buffer $ :buffer state
-                keyboard $ case-default (count buffer) ([]) (0 initial-keyboard) (1 vowel-keyboard) (2 tone-keyboard)
+                keyboard $ match (.len buffer) (0 initial-keyboard) (1 vowel-keyboard) (2 tone-keyboard)
+                  _ $ []
               div
-                {} $ :style $ merge ui/center
+                {} $ :style $ .merge ui/center
                   {} $ :font-family "|Yomogi, cursive"
                 div
-                  {} $ :style $ {} (:font-size 40)
+                  {} $ :style $ {} (:font-size |40px)
                   <> $ join-string buffer |
                 div
                   {} $ :style ui/row-center
@@ -101,7 +102,7 @@
                                   let
                                       chunk $ conj buffer key
                                     if
-                                      >= (count chunk) 3
+                                      >= (.len chunk) 3
                                       do
                                         d! $ on-input $ KeyboardInput :append chunk
                                         d! $ Op :states cursor $ {}
@@ -114,12 +115,13 @@
                         [] idx $ div
                           {} (:style style-keystroke)
                             :on-click $ fn (e d!)
-                              case-default key (println |TODO)
+                              match key
                                 "|⌫" $ if (empty? buffer)
                                   d! $ on-input $ KeyboardInput :backspace
                                   d! $ Op :states cursor $ {}
                                     :buffer $ butlast buffer
                                 "|⚁" $ request-fullscreen!
+                                _ $ println |TODO
                           <> key
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
@@ -218,14 +220,14 @@
             :features $ #{} :js-ffi
         'style-keystroke $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def style-keystroke
-            merge ui/center $ {} (:width 60) (:height 60)
+            .merge ui/center $ {} (:width |60px) (:height |60px)
               :border $ str "|1px solid " $ hsl 0 0 90
               :margin |4px
-              :cursor :pointer
-              :user-select :none
-              :font-size 20
+              :cursor |pointer
+              :user-select |none
+              :font-size |20px
           :examples $ []
-          :schema $ :: 'Map 'Tag 'Dynamic
+          :schema $ :: 'Map 'Tag 'String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
@@ -240,7 +242,7 @@
       :defs $ {}
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev?
-            = |dev $ option:unwrap-or (get-env |mode) |release
+            = |dev $ .unwrap-or (get-env |mode) |release
           :examples $ []
           :schema $ :: 'Bool
         'initial-keyboard $ %{} 'CodeEntry (:doc |)
