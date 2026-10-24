@@ -1,0 +1,3330 @@
+{
+  "namespaces": [
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "app.$meta",
+        "ns_code": [
+          "ns",
+          "app.$meta"
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 9,
+        "doc": "",
+        "namespace": "app.comp.container",
+        "ns_code": [
+          "ns",
+          "app.comp.container",
+          [
+            ":require",
+            [
+              "respo-ui.core",
+              ":as",
+              "ui"
+            ],
+            [
+              "respo-ui.core",
+              ":refer",
+              [
+                "hsl"
+              ]
+            ],
+            [
+              "respo.core",
+              ":refer",
+              [
+                "defcomp",
+                "defeffect",
+                "list->",
+                "<>",
+                ">>",
+                "div",
+                "button",
+                "textarea",
+                "span",
+                "input"
+              ]
+            ],
+            [
+              "respo.comp.space",
+              ":refer",
+              [
+                "=<"
+              ]
+            ],
+            [
+              "reel.comp.reel",
+              ":refer",
+              [
+                "comp-typed-reel"
+              ]
+            ],
+            [
+              "app.config",
+              ":refer",
+              [
+                "dev?",
+                "initial-keyboard",
+                "vowel-keyboard",
+                "tone-keyboard"
+              ]
+            ],
+            [
+              "app.schema",
+              ":refer",
+              [
+                "Op",
+                "KeyboardInput"
+              ]
+            ],
+            [
+              "js-ffi.browser",
+              ":as",
+              "browser"
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 5,
+        "doc": "",
+        "namespace": "app.config",
+        "ns_code": [
+          "ns",
+          "app.config"
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 8,
+        "doc": "",
+        "namespace": "app.main",
+        "ns_code": [
+          "ns",
+          "app.main",
+          [
+            ":require",
+            [
+              "respo.core",
+              ":refer",
+              [
+                "render!",
+                "clear-cache!"
+              ]
+            ],
+            [
+              "app.comp.container",
+              ":refer",
+              [
+                "comp-container"
+              ]
+            ],
+            [
+              "app.updater",
+              ":refer",
+              [
+                "updater"
+              ]
+            ],
+            [
+              "reel.util",
+              ":refer",
+              [
+                "listen-devtools!"
+              ]
+            ],
+            [
+              "reel.typed",
+              ":as",
+              "typed"
+            ],
+            [
+              "app.schema",
+              ":as",
+              "app.schema"
+            ],
+            [
+              "js-ffi.shared",
+              ":as",
+              "host"
+            ],
+            [
+              "respo.ffi.browser",
+              ":as",
+              "dom"
+            ],
+            [
+              "app.config",
+              ":as",
+              "config"
+            ],
+            [
+              "|./calcit.build-errors.mjs",
+              ":default",
+              "build-errors"
+            ],
+            [
+              "|bottom-tip",
+              ":default",
+              "hud!"
+            ],
+            [
+              "js-ffi.browser",
+              ":refer",
+              [
+                "add-event-listener!",
+                "set-interval!",
+                "storage-get",
+                "storage-set!"
+              ]
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 8,
+        "doc": "",
+        "namespace": "app.schema",
+        "ns_code": [
+          "ns",
+          "app.schema"
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 1,
+        "doc": "",
+        "namespace": "app.updater",
+        "ns_code": [
+          "ns",
+          "app.updater"
+        ]
+      },
+      "schema_version": 1
+    }
+  ],
+  "definitions": [
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "calcit-dirname",
+          "|"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.$meta/calcit-dirname",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:b9c073ddc99189680e33ec22dc7f5689",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "calcit-filename",
+          "|calcit.cirru"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.$meta/calcit-filename",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:a2706c65c80308f07d99e2a9ab5bd02b",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "deftrait",
+          "RegexHost"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": {
+          ":backend": {
+            "__edn_tag": "js"
+          },
+          ":kind": {
+            "__edn_tag": "external-object"
+          },
+          ":target": {
+            "__edn_tag": "browser"
+          }
+        },
+        "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)",
+        "id": "app.comp.container/RegexHost",
+        "js_ffi": null,
+        "schema": "'Trait",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:42fbcb75db1f59086744586fba76f02d",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "deftrait",
+          "StringHost",
+          [
+            ".replace3",
+            [
+              "::",
+              "'Fn",
+              [
+                "{}",
+                [
+                  ":args",
+                  [
+                    "[]",
+                    "'app.comp.container/StringHost",
+                    "'app.comp.container/RegexHost",
+                    [
+                      "::",
+                      "'Fn",
+                      [
+                        "{}",
+                        [
+                          ":return",
+                          "'String"
+                        ],
+                        [
+                          ":rest",
+                          "'Dynamic"
+                        ],
+                        [
+                          ":args",
+                          [
+                            "[]",
+                            "'String",
+                            "'String",
+                            "'String",
+                            "'String"
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  ":return",
+                  "'String"
+                ]
+              ]
+            ]
+          ],
+          [
+            ".replace2",
+            [
+              "::",
+              "'Fn",
+              [
+                "{}",
+                [
+                  ":args",
+                  [
+                    "[]",
+                    "'app.comp.container/StringHost",
+                    "'app.comp.container/RegexHost",
+                    [
+                      "::",
+                      "'Fn",
+                      [
+                        "{}",
+                        [
+                          ":return",
+                          "'String"
+                        ],
+                        [
+                          ":rest",
+                          "'Dynamic"
+                        ],
+                        [
+                          ":args",
+                          [
+                            "[]",
+                            "'String",
+                            "'String",
+                            "'String"
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  ":return",
+                  "'String"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": {
+          ":backend": {
+            "__edn_tag": "js"
+          },
+          ":kind": {
+            "__edn_tag": "external-object"
+          },
+          ":names": {
+            ":replace2": "replace",
+            ":replace3": "replace"
+          },
+          ":target": {
+            "__edn_tag": "browser"
+          }
+        },
+        "ffi_edn": "{} (:backend :js) (:kind :external-object) (:target :browser)\n  :names $ {} (:replace2 |replace) (:replace3 |replace)",
+        "id": "app.comp.container/StringHost",
+        "js_ffi": null,
+        "schema": "'Trait",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:5e6a256b24e2777b0b32a83f45212495",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defcomp",
+          "comp-container",
+          [
+            "reel"
+          ],
+          [
+            "let",
+            [
+              [
+                "store",
+                [
+                  ":store",
+                  "reel"
+                ]
+              ],
+              [
+                "states",
+                "store.:states"
+              ],
+              [
+                "cursor",
+                [
+                  "decode-map-as",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":cursor"
+                    ],
+                    [
+                      "[]"
+                    ]
+                  ],
+                  [
+                    "::",
+                    "'List",
+                    "'Dynamic"
+                  ]
+                ]
+              ],
+              [
+                "state",
+                [
+                  "decode-map-as",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":data"
+                    ],
+                    [
+                      "{}",
+                      [
+                        ":inputs",
+                        [
+                          "[]"
+                        ]
+                      ]
+                    ]
+                  ],
+                  "app.schema/InputState"
+                ]
+              ],
+              [
+                "inputs",
+                [
+                  ":inputs",
+                  "state"
+                ]
+              ]
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":style",
+                  [
+                    "merge",
+                    "ui/global",
+                    "ui/fullscreen",
+                    "ui/column"
+                  ]
+                ]
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    [
+                      "merge",
+                      "ui/expand",
+                      [
+                        "{}",
+                        [
+                          ":padding",
+                          "40"
+                        ],
+                        [
+                          ":font-size",
+                          "32"
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "<>",
+                  [
+                    "->",
+                    "inputs",
+                    [
+                      "map",
+                      "markup-tone"
+                    ],
+                    [
+                      "join-string",
+                      "| "
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    [
+                      "merge",
+                      "ui/expand",
+                      [
+                        "{}",
+                        [
+                          ":padding",
+                          "16"
+                        ],
+                        [
+                          ":font-size",
+                          "32"
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "input",
+                  [
+                    "{}",
+                    [
+                      ":value",
+                      "|"
+                    ],
+                    [
+                      ":style",
+                      "ui/input"
+                    ],
+                    [
+                      ":placeholder",
+                      "|TODO"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    [
+                      "merge",
+                      "ui/row-center",
+                      [
+                        "{}",
+                        [
+                          ":padding",
+                          "16"
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "comp-keyboard",
+                  [
+                    ">>",
+                    "states",
+                    ":keyboard"
+                  ],
+                  [
+                    "fn",
+                    [
+                      "input-action"
+                    ],
+                    [
+                      "match",
+                      "input-action",
+                      [
+                        [
+                          ":append",
+                          "chunk"
+                        ],
+                        [
+                          "Op",
+                          ":states",
+                          "cursor",
+                          [
+                            "{}",
+                            [
+                              ":inputs",
+                              [
+                                "conj",
+                                "inputs",
+                                [
+                                  "join-string",
+                                  "chunk",
+                                  "|"
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        [
+                          ":backspace"
+                        ],
+                        [
+                          "Op",
+                          ":states",
+                          "cursor",
+                          [
+                            "{}",
+                            [
+                              ":inputs",
+                              [
+                                "butlast",
+                                "inputs"
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "when",
+                "dev?",
+                [
+                  "comp-typed-reel",
+                  [
+                    ">>",
+                    "states",
+                    ":reel"
+                  ],
+                  "reel",
+                  [
+                    "{}"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/comp-container",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'reel.typed/State",
+                "'app.schema/Op",
+                "'app.schema/Store"
+              ]
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:81ce7124fa79163582342d04ec5c04fa",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defcomp",
+          "comp-keyboard",
+          [
+            "states",
+            "on-input"
+          ],
+          [
+            "let",
+            [
+              [
+                "cursor",
+                [
+                  "decode-map-as",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":cursor"
+                    ],
+                    [
+                      "[]"
+                    ]
+                  ],
+                  [
+                    "::",
+                    "'List",
+                    "'Dynamic"
+                  ]
+                ]
+              ],
+              [
+                "state",
+                [
+                  "decode-map-as",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":data"
+                    ],
+                    [
+                      "{}",
+                      [
+                        ":buffer",
+                        [
+                          "[]"
+                        ]
+                      ]
+                    ]
+                  ],
+                  "app.schema/KeyboardState"
+                ]
+              ],
+              [
+                "buffer",
+                [
+                  ":buffer",
+                  "state"
+                ]
+              ],
+              [
+                "keyboard",
+                [
+                  "case-default",
+                  [
+                    "count",
+                    "buffer"
+                  ],
+                  [
+                    "[]"
+                  ],
+                  [
+                    "0",
+                    "initial-keyboard"
+                  ],
+                  [
+                    "1",
+                    "vowel-keyboard"
+                  ],
+                  [
+                    "2",
+                    "tone-keyboard"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":style",
+                  [
+                    "merge",
+                    "ui/center",
+                    [
+                      "{}",
+                      [
+                        ":font-family",
+                        "|Yomogi, cursive"
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    [
+                      "{}",
+                      [
+                        ":font-size",
+                        "40"
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "<>",
+                  [
+                    "join-string",
+                    "buffer",
+                    "|"
+                  ]
+                ]
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    "ui/row-center"
+                  ]
+                ],
+                [
+                  "list->",
+                  [
+                    "{}"
+                  ],
+                  [
+                    "->",
+                    "keyboard",
+                    [
+                      "map-indexed",
+                      [
+                        "fn",
+                        [
+                          "idx",
+                          "row"
+                        ],
+                        [
+                          "[]",
+                          "idx",
+                          [
+                            "list->",
+                            [
+                              "{}",
+                              [
+                                ":style",
+                                "ui/row"
+                              ]
+                            ],
+                            [
+                              "->",
+                              "row",
+                              [
+                                "map-indexed",
+                                [
+                                  "fn",
+                                  [
+                                    "j",
+                                    "key"
+                                  ],
+                                  [
+                                    "[]",
+                                    "j",
+                                    [
+                                      "div",
+                                      [
+                                        "{}",
+                                        [
+                                          ":class-name",
+                                          "|keystroke"
+                                        ],
+                                        [
+                                          ":style",
+                                          "style-keystroke"
+                                        ],
+                                        [
+                                          ":on-click",
+                                          [
+                                            "fn",
+                                            [
+                                              "e",
+                                              "d!"
+                                            ],
+                                            [
+                                              "when",
+                                              [
+                                                "not=",
+                                                "key",
+                                                "|."
+                                              ],
+                                              [
+                                                "let",
+                                                [
+                                                  [
+                                                    "chunk",
+                                                    [
+                                                      "conj",
+                                                      "buffer",
+                                                      "key"
+                                                    ]
+                                                  ]
+                                                ],
+                                                [
+                                                  "if",
+                                                  [
+                                                    ">=",
+                                                    [
+                                                      "count",
+                                                      "chunk"
+                                                    ],
+                                                    "3"
+                                                  ],
+                                                  [
+                                                    "do",
+                                                    [
+                                                      "d!",
+                                                      [
+                                                        "on-input",
+                                                        [
+                                                          "KeyboardInput",
+                                                          ":append",
+                                                          "chunk"
+                                                        ]
+                                                      ]
+                                                    ],
+                                                    [
+                                                      "d!",
+                                                      [
+                                                        "Op",
+                                                        ":states",
+                                                        "cursor",
+                                                        [
+                                                          "{}",
+                                                          [
+                                                            ":buffer",
+                                                            [
+                                                              "[]"
+                                                            ]
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ],
+                                                  [
+                                                    "d!",
+                                                    [
+                                                      "Op",
+                                                      ":states",
+                                                      "cursor",
+                                                      [
+                                                        "{}",
+                                                        [
+                                                          ":buffer",
+                                                          "chunk"
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ],
+                                      [
+                                        "<>",
+                                        "key"
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "list->",
+                  [
+                    "{}"
+                  ],
+                  [
+                    "->",
+                    [
+                      "[]",
+                      "|⌫",
+                      "|.",
+                      "|.",
+                      "|⚁"
+                    ],
+                    [
+                      "map-indexed",
+                      [
+                        "fn",
+                        [
+                          "idx",
+                          "key"
+                        ],
+                        [
+                          "[]",
+                          "idx",
+                          [
+                            "div",
+                            [
+                              "{}",
+                              [
+                                ":style",
+                                "style-keystroke"
+                              ],
+                              [
+                                ":on-click",
+                                [
+                                  "fn",
+                                  [
+                                    "e",
+                                    "d!"
+                                  ],
+                                  [
+                                    "case-default",
+                                    "key",
+                                    [
+                                      "println",
+                                      "|TODO"
+                                    ],
+                                    [
+                                      "|⌫",
+                                      [
+                                        "if",
+                                        [
+                                          "empty?",
+                                          "buffer"
+                                        ],
+                                        [
+                                          "d!",
+                                          [
+                                            "on-input",
+                                            [
+                                              "KeyboardInput",
+                                              ":backspace"
+                                            ]
+                                          ]
+                                        ],
+                                        [
+                                          "d!",
+                                          [
+                                            "Op",
+                                            ":states",
+                                            "cursor",
+                                            [
+                                              "{}",
+                                              [
+                                                ":buffer",
+                                                [
+                                                  "butlast",
+                                                  "buffer"
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ],
+                                    [
+                                      "|⚁",
+                                      [
+                                        "request-fullscreen!"
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ],
+                            [
+                              "<>",
+                              "key"
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/comp-keyboard",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ],
+              [
+                "::",
+                "'Fn",
+                [
+                  "{}",
+                  [
+                    ":return",
+                    "'app.schema/Op"
+                  ],
+                  [
+                    ":args",
+                    [
+                      "[]",
+                      "'app.schema/KeyboardInput"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:1cc607ce2e2e2939ce863392d679a08f",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "make-regex",
+          [
+            "pattern"
+          ],
+          [
+            "unsafe-coerce",
+            [
+              "new",
+              "js/RegExp",
+              "pattern"
+            ],
+            "RegexHost"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/make-regex",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'app.comp.container/RegexHost"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'String"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:88ae160d11c4e4813296bd9f0239b062",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "mark-vowel",
+          [
+            "vowel",
+            "tone"
+          ],
+          [
+            "let",
+            [
+              [
+                "x",
+                [
+                  "[]",
+                  "vowel",
+                  "tone"
+                ]
+              ]
+            ],
+            [
+              "println",
+              "|vvvv",
+              "x"
+            ],
+            [
+              "cond",
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|a",
+                    "|→"
+                  ]
+                ],
+                "|ā"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|a",
+                    "|↗"
+                  ]
+                ],
+                "|á"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|a",
+                    "|↺"
+                  ]
+                ],
+                "|ǎ"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|a",
+                    "|↘"
+                  ]
+                ],
+                "|à"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|e",
+                    "|→"
+                  ]
+                ],
+                "|ē"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|e",
+                    "|↗"
+                  ]
+                ],
+                "|é"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|e",
+                    "|↺"
+                  ]
+                ],
+                "|ě"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|e",
+                    "|↘"
+                  ]
+                ],
+                "|è"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|i",
+                    "|→"
+                  ]
+                ],
+                "|ī"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|i",
+                    "|↗"
+                  ]
+                ],
+                "|í"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|i",
+                    "|↺"
+                  ]
+                ],
+                "|ǐ"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|i",
+                    "|↘"
+                  ]
+                ],
+                "|ì"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|o",
+                    "|→"
+                  ]
+                ],
+                "|ō"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|o",
+                    "|↗"
+                  ]
+                ],
+                "|ó"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|o",
+                    "|↺"
+                  ]
+                ],
+                "|ǒ"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|o",
+                    "|↘"
+                  ]
+                ],
+                "|ò"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|u",
+                    "|→"
+                  ]
+                ],
+                "|ū"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|u",
+                    "|↗"
+                  ]
+                ],
+                "|ú"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|u",
+                    "|↺"
+                  ]
+                ],
+                "|ǔ"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|u",
+                    "|↘"
+                  ]
+                ],
+                "|ù"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|ü",
+                    "|→"
+                  ]
+                ],
+                "|ǖ"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|ü",
+                    "|↗"
+                  ]
+                ],
+                "|ǘ"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|ü",
+                    "|↺"
+                  ]
+                ],
+                "|ǚ"
+              ],
+              [
+                [
+                  "=",
+                  "x",
+                  [
+                    "[]",
+                    "|ü",
+                    "|↘"
+                  ]
+                ],
+                "|ǜ"
+              ],
+              [
+                "true",
+                [
+                  "str",
+                  "vowel",
+                  "tone"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/mark-vowel",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'String"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'String",
+              "'String"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:ca7edd4c1651a794d581668dc240a01a",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "markup-tone",
+          [
+            "x"
+          ],
+          [
+            "let",
+            [
+              [
+                "x1",
+                [
+                  ".replace3",
+                  [
+                    "unsafe-coerce",
+                    "x",
+                    "StringHost"
+                  ],
+                  [
+                    "make-regex",
+                    "|([aoeiuü])(ng?)([→↗↺↘])$"
+                  ],
+                  [
+                    "fn",
+                    [
+                      "a",
+                      "b",
+                      "b2",
+                      "c",
+                      "&",
+                      "args"
+                    ],
+                    [
+                      "str",
+                      [
+                        "mark-vowel",
+                        "b",
+                        "c"
+                      ],
+                      "b2"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "x2",
+                [
+                  ".replace3",
+                  [
+                    "unsafe-coerce",
+                    "x1",
+                    "StringHost"
+                  ],
+                  [
+                    "make-regex",
+                    "|([aoeiuü])([aoeiuü])([→↗↺↘])$"
+                  ],
+                  [
+                    "fn",
+                    [
+                      "a",
+                      "b",
+                      "b2",
+                      "c",
+                      "&",
+                      "args"
+                    ],
+                    [
+                      "str",
+                      [
+                        "mark-vowel",
+                        "b",
+                        "c"
+                      ],
+                      "b2"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "x3",
+                [
+                  ".replace2",
+                  [
+                    "unsafe-coerce",
+                    "x2",
+                    "StringHost"
+                  ],
+                  [
+                    "make-regex",
+                    "|([aoeiuü])r([→↗↺↘])$"
+                  ],
+                  [
+                    "fn",
+                    [
+                      "a",
+                      "b",
+                      "c",
+                      "&",
+                      "args"
+                    ],
+                    [
+                      "str",
+                      [
+                        "mark-vowel",
+                        "b",
+                        "c"
+                      ],
+                      "|r"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              ".replace2",
+              [
+                "unsafe-coerce",
+                "x3",
+                "StringHost"
+              ],
+              [
+                "make-regex",
+                "|([aoeiuü])([→↗↺↘])$"
+              ],
+              [
+                "fn",
+                [
+                  "a",
+                  "b",
+                  "c",
+                  "&",
+                  "args"
+                ],
+                [
+                  "mark-vowel",
+                  "b",
+                  "c"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/markup-tone",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'String"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'String"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:8311d695ca86addc51bd281e244d6867",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "request-fullscreen!",
+          [],
+          [
+            "browser/element-request-fullscreen!",
+            [
+              ".unwrap",
+              [
+                "browser/document-body"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/request-fullscreen!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:c45c44e3308e4455352dbf6951d5d99f",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "style-keystroke",
+          [
+            "merge",
+            "ui/center",
+            [
+              "{}",
+              [
+                ":width",
+                "60"
+              ],
+              [
+                ":height",
+                "60"
+              ],
+              [
+                ":border",
+                [
+                  "str",
+                  "|1px solid ",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "90"
+                  ]
+                ]
+              ],
+              [
+                ":margin",
+                "|4px"
+              ],
+              [
+                ":cursor",
+                ":pointer"
+              ],
+              [
+                ":user-select",
+                ":none"
+              ],
+              [
+                ":font-size",
+                "20"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/style-keystroke",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Map",
+          "'Tag",
+          "'Dynamic"
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:f53dc4bb0b76a51a18cbb0a1dec2f09a",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "dev?",
+          [
+            "=",
+            "|dev",
+            [
+              "option:unwrap-or",
+              [
+                "get-env",
+                "|mode"
+              ],
+              "|release"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/dev?",
+        "js_ffi": null,
+        "schema": "'Bool",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:0cdd8b0d7c2ecaf013b0ca3d6e46e55e",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "initial-keyboard",
+          [
+            "[]",
+            [
+              "[]",
+              "|b",
+              "|p",
+              "|m",
+              "|f",
+              "|d",
+              "|t",
+              "|n",
+              "|l"
+            ],
+            [
+              "[]",
+              "|g",
+              "|k",
+              "|h",
+              "|j",
+              "|q",
+              "|x",
+              "|.",
+              "|."
+            ],
+            [
+              "[]",
+              "|zh",
+              "|ch",
+              "|sh",
+              "|r",
+              "|z",
+              "|c",
+              "|s",
+              "|."
+            ],
+            [
+              "[]",
+              "|y",
+              "|w",
+              "|.",
+              "|.",
+              "|.",
+              "|.",
+              "|.",
+              "|."
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/initial-keyboard",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'List",
+          [
+            "::",
+            "'List",
+            "'String"
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:773b6df051c7a5f551aaf9759fbe495e",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "site",
+          [
+            "{}",
+            [
+              ":storage-key",
+              "|proto-shuangpin"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/site",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Map",
+          "'Tag",
+          "'String"
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:145a16be06cad2ac27ad00de4e3af06d",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "tone-keyboard",
+          [
+            "[]",
+            [
+              "[]",
+              "|.",
+              "|.",
+              "|→",
+              "|↗",
+              "|↺",
+              "|↘",
+              "|.",
+              "|."
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/tone-keyboard",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'List",
+          [
+            "::",
+            "'List",
+            "'String"
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:e320fb20f0843a55326a61b9c4922fa4",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "vowel-keyboard",
+          [
+            "[]",
+            [
+              "[]",
+              "|a",
+              "|o",
+              "|e",
+              "|i",
+              "|u",
+              "|ü",
+              "|uan",
+              "|ian"
+            ],
+            [
+              "[]",
+              "|ai",
+              "|ei",
+              "|ui",
+              "|ao",
+              "|ou",
+              "|iu",
+              "|uo",
+              "|uai"
+            ],
+            [
+              "[]",
+              "|an",
+              "|en",
+              "|in",
+              "|un",
+              "|ün",
+              "|ie",
+              "|üe",
+              "|er"
+            ],
+            [
+              "[]",
+              "|ang",
+              "|eng",
+              "|ing",
+              "|ong",
+              "|iang",
+              "|uang",
+              "|iong",
+              "|ua"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/vowel-keyboard",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'List",
+          [
+            "::",
+            "'List",
+            "'String"
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:2e2e84a35a2a6ded4dd7f0347d69293d",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defref",
+          "*reel",
+          [
+            "typed/new-reel",
+            "app.schema/store"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/*reel",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Ref",
+          [
+            "::",
+            "'reel.typed/State",
+            "'app.schema/Op",
+            "'app.schema/Store"
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:f50dd369f39f481b20c18947d1fd657f",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "dispatch!",
+          [
+            "op"
+          ],
+          [
+            "if",
+            [
+              "enum?",
+              "op"
+            ],
+            [
+              "do",
+              [
+                "when",
+                "config/dev?",
+                [
+                  "println",
+                  "|Dispatch:",
+                  "op"
+                ]
+              ],
+              [
+                "match",
+                [
+                  "typed/decode-control",
+                  "op"
+                ],
+                [
+                  [
+                    ":some",
+                    "control"
+                  ],
+                  [
+                    "reset!",
+                    "*reel",
+                    [
+                      "typed/apply-control",
+                      "updater",
+                      "@*reel",
+                      "control"
+                    ]
+                  ]
+                ],
+                [
+                  [
+                    ":none"
+                  ],
+                  [
+                    "let",
+                    [
+                      [
+                        "op-id",
+                        [
+                          "generate-id!"
+                        ]
+                      ],
+                      [
+                        "op-time",
+                        [
+                          "host/now-ms"
+                        ]
+                      ]
+                    ],
+                    [
+                      "reset!",
+                      "*reel",
+                      [
+                        "typed/record-op",
+                        "updater",
+                        "@*reel",
+                        [
+                          "app.schema/decode-op",
+                          "op"
+                        ],
+                        "op-id",
+                        "op-time"
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              "&unit"
+            ],
+            [
+              "raise",
+              "|Expected-Enum-operation"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/dispatch!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Dynamic"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:b3bd5bcad8897e035e0b7eeb3172fa72",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "main!",
+          [],
+          [
+            "println",
+            "|Running mode:",
+            [
+              "if",
+              "config/dev?",
+              "|dev",
+              "|release"
+            ]
+          ],
+          [
+            "match",
+            [
+              "storage-get",
+              [
+                [
+                  "get",
+                  "config/site",
+                  ":storage-key"
+                ],
+                ".unwrap"
+              ]
+            ],
+            [
+              [
+                ":some",
+                "raw"
+              ],
+              [
+                "dispatch!",
+                [
+                  "app.schema/Op",
+                  ":hydrate-storage",
+                  [
+                    "app.schema/decode-store",
+                    [
+                      "parse-cirru-edn",
+                      "raw"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              [
+                ":none"
+              ],
+              "&unit"
+            ]
+          ],
+          [
+            "render-app!"
+          ],
+          [
+            "add-watch!",
+            "*reel",
+            ":changes",
+            [
+              "fn",
+              [
+                "reel",
+                "prev"
+              ],
+              [
+                "render-app!"
+              ]
+            ]
+          ],
+          [
+            "listen-devtools!",
+            "|k",
+            "dispatch!"
+          ],
+          [
+            "add-event-listener!",
+            "|beforeunload",
+            [
+              "fn",
+              [
+                "_"
+              ],
+              [
+                "persist-storage!"
+              ]
+            ]
+          ],
+          [
+            "repeat!",
+            "60",
+            "persist-storage!"
+          ],
+          [
+            "println",
+            "|App started."
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/main!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:4c64a11add65774c39b89514d9e19fcc",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "mount-target",
+          [
+            ".unwrap",
+            [
+              "dom/query-selector",
+              "|.app"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/mount-target",
+        "js_ffi": null,
+        "schema": "'respo.dom/DomElement",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:20b6452f621200fa97d8f1ee75bbd31d",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "persist-storage!",
+          [],
+          [
+            "storage-set!",
+            [
+              ".unwrap",
+              [
+                "get",
+                "config/site",
+                ":storage-key"
+              ]
+            ],
+            [
+              "format-cirru-edn",
+              [
+                ":store",
+                "@*reel"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/persist-storage!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:a3939d4e4eddb0113047b739477611e9",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "reload!",
+          [],
+          [
+            "if",
+            [
+              "nil?",
+              "build-errors"
+            ],
+            [
+              "do",
+              [
+                "remove-watch!",
+                "*reel",
+                ":changes"
+              ],
+              [
+                "clear-cache!"
+              ],
+              [
+                "add-watch!",
+                "*reel",
+                ":changes",
+                [
+                  "fn",
+                  [
+                    "reel",
+                    "prev"
+                  ],
+                  [
+                    "render-app!"
+                  ]
+                ]
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "typed/refresh",
+                  "updater",
+                  "@*reel",
+                  "app.schema/store"
+                ]
+              ],
+              [
+                "hud!",
+                "|ok~",
+                "|Ok"
+              ]
+            ],
+            [
+              "hud!",
+              "|error",
+              "build-errors"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/reload!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:647d0d98be94ce36bbdb135077fab7bc",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "render-app!",
+          [],
+          [
+            "render!",
+            "mount-target",
+            [
+              "comp-container",
+              "@*reel"
+            ],
+            "dispatch!"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/render-app!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:6c62cdb0f1883324ee63caa17b90fbf4",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "repeat!",
+          [
+            "duration",
+            "cb"
+          ],
+          [
+            "set-interval!",
+            "cb",
+            [
+              "*",
+              "1000",
+              "duration"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/repeat!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Number",
+              [
+                "::",
+                "'Fn",
+                [
+                  "{}",
+                  [
+                    ":return",
+                    "'Unit"
+                  ],
+                  [
+                    ":args",
+                    [
+                      "[]"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:5897de2e4c798b498b14002dfbc7a2f0",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defstruct",
+          "InputState",
+          [
+            ":inputs",
+            [
+              "::",
+              "'List",
+              "'String"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/InputState",
+        "js_ffi": null,
+        "schema": "'StructDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:3193c0054a854ea5a6e928a0875abbda",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defenum",
+          "KeyboardInput",
+          [
+            ":append",
+            [
+              "::",
+              "'List",
+              "'String"
+            ]
+          ],
+          [
+            ":backspace"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/KeyboardInput",
+        "js_ffi": null,
+        "schema": "'EnumDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:0a57e939b3817665f65efbfbf109ba5b",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defstruct",
+          "KeyboardState",
+          [
+            ":buffer",
+            [
+              "::",
+              "'List",
+              "'String"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/KeyboardState",
+        "js_ffi": null,
+        "schema": "'StructDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:937bd865990c2031863e67b87ba6a473",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defenum",
+          "Op",
+          [
+            ":states",
+            [
+              "::",
+              "'List",
+              "'Dynamic"
+            ],
+            "'Dynamic"
+          ],
+          [
+            ":hydrate-storage",
+            "'app.schema/Store"
+          ],
+          [
+            ":reel/toggle"
+          ],
+          [
+            ":reel/recall",
+            "'Number"
+          ],
+          [
+            ":reel/run"
+          ],
+          [
+            ":reel/step"
+          ],
+          [
+            ":reel/merge"
+          ],
+          [
+            ":reel/reset"
+          ],
+          [
+            ":reel/remove",
+            "'Number"
+          ],
+          [
+            ":unknown",
+            "'Enum"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/Op",
+        "js_ffi": null,
+        "schema": "'EnumDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:05eda40b1d7cea6f7021bf81cbc2e5ee",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defstruct",
+          "Store",
+          [
+            ":states",
+            [
+              "::",
+              "'Map",
+              "'Tag",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/Store",
+        "js_ffi": null,
+        "schema": "'StructDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:b44b9f37303094e8fe6ccc8667b0700f",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "decode-op",
+          [
+            "op"
+          ],
+          [
+            "match",
+            "op",
+            [
+              [
+                ":states",
+                "cursor",
+                "data"
+              ],
+              [
+                "Op",
+                ":states",
+                [
+                  "decode-map-as",
+                  "cursor",
+                  [
+                    "::",
+                    "'List",
+                    "'Dynamic"
+                  ]
+                ],
+                "data"
+              ]
+            ],
+            [
+              [
+                ":hydrate-storage",
+                "data"
+              ],
+              [
+                "Op",
+                ":hydrate-storage",
+                [
+                  "decode-store",
+                  "data"
+                ]
+              ]
+            ],
+            [
+              "_",
+              [
+                "Op",
+                ":unknown",
+                "op"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/decode-op",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'app.schema/Op"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Enum"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:a64c4e6851ceb15a1b6928bfc4672d4d",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "decode-store",
+          [
+            "raw"
+          ],
+          [
+            "decode-map-as",
+            [
+              "{}",
+              [
+                ":states",
+                [
+                  ".unwrap",
+                  [
+                    "get",
+                    "raw",
+                    ":states"
+                  ]
+                ]
+              ]
+            ],
+            "Store"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/decode-store",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'app.schema/Store"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:7e0da14ebd834f1fcf920e29b9f875c3",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "store",
+          [
+            "Store",
+            ":states",
+            [
+              "{}",
+              [
+                ":cursor",
+                [
+                  "[]"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/store",
+        "js_ffi": null,
+        "schema": "'app.schema/Store",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:048e8e4aa0408d0b14918f9f6b51067a",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "updater",
+          [
+            "store",
+            "op",
+            "op-id",
+            "op-time"
+          ],
+          [
+            "match",
+            "op",
+            [
+              [
+                ":states",
+                "cursor",
+                "data"
+              ],
+              [
+                "assoc",
+                "store",
+                ":states",
+                [
+                  "decode-map-as",
+                  [
+                    "assoc-in",
+                    [
+                      ":states",
+                      "store"
+                    ],
+                    [
+                      "conj",
+                      "cursor",
+                      ":data"
+                    ],
+                    "data"
+                  ],
+                  [
+                    "::",
+                    "'Map",
+                    "'Tag",
+                    "'Dynamic"
+                  ]
+                ]
+              ]
+            ],
+            [
+              [
+                ":hydrate-storage",
+                "data"
+              ],
+              "data"
+            ],
+            [
+              [
+                ":unknown",
+                "original"
+              ],
+              [
+                "do",
+                [
+                  "println",
+                  "|unknown op:",
+                  "original"
+                ],
+                "store"
+              ]
+            ],
+            [
+              "_",
+              [
+                "do",
+                [
+                  "println",
+                  "|unknown op:",
+                  "op"
+                ],
+                "store"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.updater/updater",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'app.schema/Store"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'app.schema/Store",
+              "'app.schema/Op",
+              "'String",
+              "'Number"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:b72dccf03d2627ffdb58613253931b0a",
+      "schema_version": 1
+    }
+  ],
+  "config": {
+    "schema_version": 1,
+    "command": "config.show",
+    "data": {
+      "package": "app",
+      "version": "0.0.4",
+      "selected_entry": null,
+      "entries": [
+        {
+          "name": "default",
+          "mode": "js",
+          "target": "browser",
+          "init_fn": "app.main/main!",
+          "reload_fn": "app.main/reload!",
+          "description": "",
+          "modules": [
+            "respo.calcit/",
+            "respo-ui.calcit/",
+            "reel.calcit/",
+            "js-ffi/"
+          ],
+          "type_slots": {
+            "dispatch-op": "app.schema/Op"
+          },
+          "feature_policy": {}
+        }
+      ],
+      "verification_schema_version": 1,
+      "verification_profiles": []
+    },
+    "diagnostics": [],
+    "revision": "md5:7f2acf58732b1c3071ba7b92846f0933"
+  }
+}
