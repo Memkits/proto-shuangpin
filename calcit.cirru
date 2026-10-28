@@ -351,7 +351,13 @@
             :features $ #{} :js-ffi
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! mount-target (comp-container @*reel) dispatch!
+            render! mount-target (comp-container @*reel)
+              fn (op)
+                hint-fn $ {}
+                  :args $ [] app.schema/Op
+                  :return 'Unit
+                  :features $ #{} :js-ffi
+                dispatch! op
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
