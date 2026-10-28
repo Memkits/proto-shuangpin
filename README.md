@@ -10,7 +10,16 @@ Demo http://r.tiye.me/Memkits/shuangpin/ .
 
 _TODO_
 
-### 本轮使用者影响：正式 Calcit 0.30.1
+### 本轮使用者影响：正式 Calcit 0.31.0
+
+CLI/procs 配对正式 0.31.0，Reel/UI/Respo 使用已发布的 0.7.0-alpha.4、
+0.9.0-alpha.4、0.17.0-alpha.4，JS-FFI 0.2.7，Router 0.9.0-alpha.3 为传递依赖。
+UI 依赖仍是 alpha；重新安装整张图、生成 JS 并刷新页面。
+渲染入口显式传入接收 `app.schema/Op` 的回调，再交给原受检事件入口处理。
+不放宽类型门禁；原存档保护、键盘输入、声调算法、Reel、HUD 与部署路径保持不变。
+既有声调限制 #11 仍未解决，本次升级不宣称覆盖全部拼音组合。
+
+### 此前使用者影响：正式 Calcit 0.30.1
 
 CLI/procs 配对正式 **0.30.1**，依赖固定为已发布的 Reel 0.6.42、UI 0.8.1、Respo 0.16.126、
 JS-FFI 0.2.6，Router 0.8.38 为传递依赖。请重新安装完整图、生成 JS 并刷新，不混用旧 alpha 缓存；
@@ -38,7 +47,7 @@ all-defs 与完整 strict 通过。项目没有附着测试，不把空选择当
 
 https://github.com/calcit-lang/respo-calcit-workflow
 
-Use paired Calcit/procs 0.30.1, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
+Use paired Calcit/procs 0.31.0, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
 `caps --ci --strict`, `yarn install --immutable`,
 `yarn build`, and `node --test tests/*.test.mjs`. Only `calcit.cirru` and
 `deps.cirru` are canonical; CI rejects retired `compact.cirru` / `package.cirru`.
