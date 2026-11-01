@@ -14,23 +14,19 @@
           :code $ quote $ deftrait RegexHost
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
-          :schema $ :: 'Trait
+          :schema $ quote Trait
         'StringHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait StringHost
-            .replace3 $ :: 'Fn $ {}
-              :args $ [] 'app.comp.container/StringHost 'app.comp.container/RegexHost $ :: 'Fn
-                {} (:return 'String) (:rest 'Dynamic)
-                  :args $ [] 'String 'String 'String 'String
-              :return 'String
-            .replace2 $ :: 'Fn $ {}
-              :args $ [] 'app.comp.container/StringHost 'app.comp.container/RegexHost $ :: 'Fn
-                {} (:return 'String) (:rest 'Dynamic)
-                  :args $ [] 'String 'String 'String
-              :return 'String
+            .replace3 $ quote $ Fn app.comp.container/StringHost app.comp.container/RegexHost
+              Fn String String String String & Dynamic $ -> String
+              -> String
+            .replace2 $ quote $ Fn app.comp.container/StringHost app.comp.container/RegexHost
+              Fn String String String & Dynamic $ -> String
+              -> String
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
             :names $ {} (:replace2 |replace) (:replace3 |replace)
-          :schema $ :: 'Trait
+          :schema $ quote Trait
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
             let
@@ -67,8 +63,7 @@
                           Op :states cursor $ {} $ :inputs (butlast inputs)
                 when dev? $ comp-typed-reel (>> states :reel) reel $ {}
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
+          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store) (-> respo.schema/Component)
         'comp-keyboard $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-keyboard (states on-input)
             let
@@ -124,17 +119,14 @@
                                 _ $ println |TODO
                           <> key
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] (:: 'Map 'Dynamic 'Dynamic)
-              :: 'Fn $ {} (:return 'app.schema/Op)
-                :args $ [] 'app.schema/KeyboardInput
+          :schema $ quote $ Fn (Map Dynamic Dynamic)
+            Fn app.schema/KeyboardInput $ -> app.schema/Op
+            -> respo.schema/Component
         'make-regex $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn make-regex (pattern)
             unsafe-coerce (new js/RegExp pattern) RegexHost
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'app.comp.container/RegexHost)
-            :args $ [] 'String
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn String (-> app.comp.container/RegexHost) (:features :js-ffi)
         'mark-vowel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mark-vowel (vowel tone)
             let
@@ -191,8 +183,7 @@
                   , "|ǜ"
                 true $ str vowel tone
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'String)
-            :args $ [] 'String 'String
+          :schema $ quote $ Fn String String (-> String)
         'markup-tone $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn markup-tone (x)
             let
@@ -208,16 +199,12 @@
               .replace2 (unsafe-coerce x3 StringHost) (make-regex "|([aoeiuü])([→↗↺↘])$")
                 fn (a b c & args) (mark-vowel b c)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'String)
-            :args $ [] 'String
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn String (-> String) (:features :js-ffi)
         'request-fullscreen! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn request-fullscreen! ()
             browser/element-request-fullscreen! $ .unwrap $ browser/document-body
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'style-keystroke $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def style-keystroke
             .merge ui/center $ {} (:width |60px) (:height |60px)
@@ -227,7 +214,7 @@
               :user-select |none
               :font-size |20px
           :examples $ []
-          :schema $ :: 'Map 'Tag 'String
+          :schema $ quote $ Map Tag String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
@@ -244,7 +231,7 @@
           :code $ quote $ def dev?
             = |dev $ .unwrap-or (get-env |mode) |release
           :examples $ []
-          :schema $ :: 'Bool
+          :schema $ quote Bool
         'initial-keyboard $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def initial-keyboard
             []
@@ -253,17 +240,17 @@
               [] |zh |ch |sh |r |z |c |s |.
               [] |y |w |. |. |. |. |. |.
           :examples $ []
-          :schema $ :: 'List $ :: 'List 'String
+          :schema $ quote $ List (List String)
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
             {} $ :storage-key |proto-shuangpin
           :examples $ []
-          :schema $ :: 'Map 'Tag 'String
+          :schema $ quote $ Map Tag String
         'tone-keyboard $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def tone-keyboard
             [] $ [] |. |. "|→" "|↗" "|↺" "|↘" |. |.
           :examples $ []
-          :schema $ :: 'List $ :: 'List 'String
+          :schema $ quote $ List (List String)
         'vowel-keyboard $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def vowel-keyboard
             []
@@ -272,7 +259,7 @@
               [] |an |en |in |un "|ün" |ie "|üe" |er
               [] |ang |eng |ing |ong |iang |uang |iong |ua
           :examples $ []
-          :schema $ :: 'List $ :: 'List 'String
+          :schema $ quote $ List (List String)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.config
     'app.main $ %{} 'FileEntry
@@ -280,7 +267,7 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel app.schema/store)
           :examples $ []
-          :schema $ :: 'Ref $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
+          :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             if (enum? op)
@@ -298,9 +285,7 @@
               raise |Expected-Enum-operation
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Dynamic
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn Dynamic (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -319,23 +304,19 @@
             println "|App started."
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def mount-target
             .unwrap $ dom/query-selector |.app
           :examples $ []
-          :schema $ :: 'respo.dom/DomElement
+          :schema $ quote respo.dom/DomElement
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             storage-set!
               .unwrap $ get config/site :storage-key
               format-cirru-edn $ :store @*reel
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -346,9 +327,7 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render! mount-target (comp-container @*reel)
@@ -359,18 +338,15 @@
                   :features $ #{} :js-ffi
                 dispatch! op
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             set-interval! cb $ * 1000 duration
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Number $ :: 'Fn
-              {} (:return 'Unit)
-                :args $ []
+          :schema $ quote $ Fn Number
+            Fn $ -> Unit
+            -> Unit
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
@@ -390,23 +366,25 @@
       :defs $ {}
         'InputState $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct InputState
-            :inputs $ :: 'List 'String
+            :inputs $ quote $ List String
           :examples $ []
-          :schema $ :: 'StructDef
+          :schema $ quote StructDef
         'KeyboardInput $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum KeyboardInput
-            :append $ :: 'List 'String
+            :append $ quote $ List String
             :backspace
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'KeyboardState $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct KeyboardState
-            :buffer $ :: 'List 'String
+            :buffer $ quote $ List String
           :examples $ []
-          :schema $ :: 'StructDef
+          :schema $ quote StructDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states (:: 'List 'Dynamic) 'Dynamic
+            :states
+              quote $ List Dynamic
+              , 'Dynamic
             :hydrate-storage 'app.schema/Store
             :reel/toggle
             :reel/recall 'Number
@@ -417,12 +395,12 @@
             :reel/remove 'Number
             :unknown 'Enum
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ :: 'Map 'Tag 'Dynamic
+            :states $ quote $ Map Tag Dynamic
           :examples $ []
-          :schema $ :: 'StructDef
+          :schema $ quote StructDef
         'decode-op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-op (op)
             match op
@@ -434,21 +412,19 @@
                 Op :hydrate-storage $ decode-store data
               _ $ Op :unknown op
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'app.schema/Op)
-            :args $ [] 'Enum
+          :schema $ quote $ Fn Enum (-> app.schema/Op)
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (raw)
             decode-map-as
               {} $ :states $ .unwrap (get raw :states)
               , Store
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'app.schema/Store)
-            :args $ [] 'Dynamic
+          :schema $ quote $ Fn Dynamic (-> app.schema/Store)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states $ {} $ :cursor ([])
           :examples $ []
-          :schema $ :: 'app.schema/Store
+          :schema $ quote app.schema/Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.updater $ %{} 'FileEntry
@@ -465,7 +441,6 @@
                 do (println "|unknown op:" original) store
               _ $ do (println "|unknown op:" op) store
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'app.schema/Store)
-            :args $ [] 'app.schema/Store 'app.schema/Op 'String 'Number
+          :schema $ quote $ Fn app.schema/Store app.schema/Op String Number (-> app.schema/Store)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
