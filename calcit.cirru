@@ -17,10 +17,10 @@
           :schema $ quote Trait
         'StringHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait StringHost
-            .replace3 $ quote $ Fn app.comp.container/StringHost app.comp.container/RegexHost
+            .replace3 $ Fn app.comp.container/StringHost app.comp.container/RegexHost
               Fn String String String String & Dynamic $ -> String
               -> String
-            .replace2 $ quote $ Fn app.comp.container/StringHost app.comp.container/RegexHost
+            .replace2 $ Fn app.comp.container/StringHost app.comp.container/RegexHost
               Fn String String String & Dynamic $ -> String
               -> String
           :examples $ []
@@ -34,7 +34,7 @@
                 states store.:states
                 cursor $ decode-map-as
                   .unwrap-or (get states :cursor) ([])
-                  :: 'List 'Dynamic
+                  List respo.schema/CoordKey
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} $ :inputs $ []
@@ -61,7 +61,9 @@
                             conj inputs $ join-string chunk |
                         (:backspace)
                           Op :states cursor $ {} $ :inputs (butlast inputs)
-                when dev? $ comp-typed-reel (>> states :reel) reel $ {}
+                if dev?
+                  Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                  Option :none
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store) (-> respo.schema/Component)
         'comp-keyboard $ %{} 'CodeEntry (:doc |)
@@ -69,7 +71,7 @@
             let
                 cursor $ decode-map-as
                   .unwrap-or (get states :cursor) ([])
-                  :: 'List 'Dynamic
+                  List respo.schema/CoordKey
                 state $ decode-map-as
                   .unwrap-or (get states :data)
                     {} $ :buffer $ []
@@ -214,7 +216,7 @@
               :user-select |none
               :font-size |20px
           :examples $ []
-          :schema $ quote $ Map Tag String
+          :schema $ quote $ Map Tag respo-ui.schema/StyleValue
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
@@ -270,22 +272,18 @@
           :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
-            if (enum? op)
-              do
-                when config/dev? $ println |Dispatch: op
-                match (typed/decode-control op)
-                  (:some control)
-                    reset! *reel $ typed/apply-control updater @*reel control
-                  (:none)
-                    let
-                        op-id $ generate-id!
-                        op-time $ host/now-ms
-                      reset! *reel $ typed/record-op updater @*reel (app.schema/decode-op op) op-id op-time
-                , &unit
-              raise |Expected-Enum-operation
+            when config/dev? $ println |Dispatch: op
+            match (typed/decode-control op)
+              (:some control)
+                reset! *reel $ typed/apply-control updater @*reel control
+              (:none)
+                let
+                    op-id $ generate-id!
+                    op-time $ host/now-ms
+                  reset! *reel $ typed/record-op updater @*reel (app.schema/decode-op op) op-id op-time
             , &unit
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -366,39 +364,37 @@
       :defs $ {}
         'InputState $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct InputState
-            :inputs $ quote $ List String
+            :inputs $ List String
           :examples $ []
           :schema $ quote StructDef
         'KeyboardInput $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum KeyboardInput
-            :append $ quote $ List String
+            :append $ List String
             :backspace
           :examples $ []
           :schema $ quote EnumDef
         'KeyboardState $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct KeyboardState
-            :buffer $ quote $ List String
+            :buffer $ List String
           :examples $ []
           :schema $ quote StructDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states
-              quote $ List Dynamic
-              , 'Dynamic
-            :hydrate-storage 'app.schema/Store
+            :states (List respo.schema/CoordKey) Dynamic
+            :hydrate-storage app.schema/Store
             :reel/toggle
-            :reel/recall 'Number
+            :reel/recall Number
             :reel/run
             :reel/step
             :reel/merge
             :reel/reset
-            :reel/remove 'Number
-            :unknown 'Enum
+            :reel/remove Number
+            :unknown AnyEnum
           :examples $ []
           :schema $ quote EnumDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ quote $ Map Tag Dynamic
+            :states $ Map Tag Dynamic
           :examples $ []
           :schema $ quote StructDef
         'decode-op $ %{} 'CodeEntry (:doc |)
@@ -406,13 +402,13 @@
             match op
               (:states cursor data)
                 Op :states
-                  decode-map-as cursor $ :: 'List 'Dynamic
+                  decode-map-as cursor $ List respo.schema/CoordKey
                   , data
               (:hydrate-storage data)
                 Op :hydrate-storage $ decode-store data
               _ $ Op :unknown op
           :examples $ []
-          :schema $ quote $ Fn Enum (-> app.schema/Op)
+          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (raw)
             decode-map-as
@@ -435,7 +431,7 @@
               (:states cursor data)
                 assoc store :states $ decode-map-as
                   assoc-in (:states store) (conj cursor :data) data
-                  :: 'Map 'Tag 'Dynamic
+                  Map Tag Dynamic
               (:hydrate-storage data) data
               (:unknown original)
                 do (println "|unknown op:" original) store
