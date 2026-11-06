@@ -10,23 +10,12 @@ Demo http://r.tiye.me/Memkits/shuangpin/ .
 
 _TODO_
 
-### 本轮使用者影响：正式 Calcit 0.32.1
+### Calcit 0.35.1
 
-请配对安装正式 CLI / `@calcit/procs` 0.32.1，重新安装完整图、生成 JS 并刷新。
-直接模块使用已发布 Reel 0.7.0、UI 0.9.0、Respo 0.17.1、JS-FFI 0.2.9；
-UI 仍固定 Router 0.9.0-alpha.4 传递依赖，不宣称整张图均为稳定版。
-严格 Caps 安装五个真实模块，不使用本地候选或忽略冲突。
-
-Snapshot 仅通过官方事务迁移旧类型形式，不改键盘输入、声调算法、Store/Op、HUD、
-原七项测试、类型门禁、存档协议或工作流。npm 等待期从 0 收紧到维护者已授权的一小时，
-移除无用的 Git 全匹配许可，不增加按版本豁免或新检查框架。
-
-211 个定义、31 个公开定义、完整 strict、原七项 Node 业务测试、不可变安装、
-工具链配对、canonical 与构建通过。实际虚拟键盘 b/a/一声产生 bā，刷新恢复、
-继续输入 p 及退格清空缓冲通过，控制台无警告或错误。
-没有重新验收全屏、60 秒定时器、HMR 或坏存档，也不声称已解决 #11 的既有声调限制。
-primitive String/RegExp 真实边界仍保留，需求继续见 JS-FFI #183，不假装清零。
-原 COS 内置 verify、隔离预览和生产路径不变；本次不合并、部署生产或发版。
+配对安装正式 Calcit 与 `@calcit/procs` 0.35.1，再安装模块、构建并刷新。
+正式模块为 Respo 0.19.4、Reel 0.9.2、UI 0.15.1、JS FFI 0.2.13 和 Router 0.12.1。
+键帽样式复用 StyleValue，状态路径使用 CoordKey，派发使用 AnyEnum。键盘、声调和存档格式沿用。
+217 个全定义、原七项回归、完整 strict 及构建通过。浏览器实机输入待验收。
 
 ### 此前使用者影响：正式 Calcit 0.31.0
 
@@ -65,7 +54,7 @@ all-defs 与完整 strict 通过。项目没有附着测试，不把空选择当
 
 https://github.com/calcit-lang/respo-calcit-workflow
 
-Use paired Calcit/procs 0.32.1, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
+Use paired Calcit/procs 0.35.1, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
 `caps --ci --strict`, `yarn install --immutable`,
 `yarn build`, and `node --test tests/*.test.mjs`. Only `calcit.cirru` and
 `deps.cirru` are canonical; CI rejects retired `compact.cirru` / `package.cirru`.
