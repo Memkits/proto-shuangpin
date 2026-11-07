@@ -10,12 +10,11 @@ Demo http://r.tiye.me/Memkits/shuangpin/ .
 
 _TODO_
 
-### Calcit 0.35.1
+### Calcit 0.37.0
 
-配对安装正式 Calcit 与 `@calcit/procs` 0.35.1，再安装模块、构建并刷新。
-正式模块为 Respo 0.19.4、Reel 0.9.2、UI 0.15.1、JS FFI 0.2.13 和 Router 0.12.1。
-键帽样式复用 StyleValue，状态路径使用 CoordKey，派发使用 AnyEnum。键盘、声调和存档格式沿用。
-217 个全定义、原七项回归、完整 strict 及构建通过。浏览器实机输入待验收。
+配对安装正式 Calcit 与 `@calcit/procs` 0.37.0，再安装模块、构建并刷新。
+正式模块为 Respo 0.19.5、Reel 0.10.0、UI 0.15.2、JS FFI 0.2.13 和 Router 0.12.2。
+键盘操作使用 `InputState | KeyboardState`，内部派发以 `Op | reel.typed/Control` 区分应用操作和回放控制。键盘布局、声调算法及存档格式沿用。
 
 ### 此前使用者影响：正式 Calcit 0.31.0
 
@@ -54,7 +53,7 @@ all-defs 与完整 strict 通过。项目没有附着测试，不把空选择当
 
 https://github.com/calcit-lang/respo-calcit-workflow
 
-Use paired Calcit/procs 0.35.1, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
+Use paired Calcit/procs 0.37.0, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
 `caps --ci --strict`, `yarn install --immutable`,
 `yarn build`, and `node --test tests/*.test.mjs`. Only `calcit.cirru` and
 `deps.cirru` are canonical; CI rejects retired `compact.cirru` / `package.cirru`.

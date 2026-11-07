@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op |app.schema/Op
+      :type-slots $ {} $ :dispatch-op 'app.schema/Op
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -57,10 +57,9 @@
                     fn (input-action)
                       match input-action
                         (:append chunk)
-                          Op :states cursor $ {} $ :inputs
-                            conj inputs $ join-string chunk |
+                          Op :edit-state cursor $ app.schema/InputState :inputs $ conj inputs (join-string chunk |)
                         (:backspace)
-                          Op :states cursor $ {} $ :inputs (butlast inputs)
+                          Op :edit-state cursor $ app.schema/InputState :inputs $ butlast inputs
                 if dev?
                   Option :some $ comp-typed-reel (>> states :reel) reel $ {}
                   Option :none
@@ -102,9 +101,8 @@
                                       >= (.len chunk) 3
                                       do
                                         d! $ on-input $ KeyboardInput :append chunk
-                                        d! $ Op :states cursor $ {}
-                                          :buffer $ []
-                                      d! $ Op :states cursor $ {} (:buffer chunk)
+                                        d! $ Op :edit-state cursor $ app.schema/KeyboardState :buffer ([])
+                                      d! $ Op :edit-state cursor $ app.schema/KeyboardState :buffer chunk
                             <> key
                   list-> ({})
                     -> ([] "|⌫" |. |. "|⚁")
@@ -115,8 +113,7 @@
                               match key
                                 "|⌫" $ if (empty? buffer)
                                   d! $ on-input $ KeyboardInput :backspace
-                                  d! $ Op :states cursor $ {}
-                                    :buffer $ butlast buffer
+                                  d! $ Op :edit-state cursor $ app.schema/KeyboardState :buffer (butlast buffer)
                                 "|⚁" $ request-fullscreen!
                                 _ $ println |TODO
                           <> key
@@ -273,17 +270,29 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ println |Dispatch: op
-            match (typed/decode-control op)
-              (:some control)
-                reset! *reel $ typed/apply-control updater @*reel control
-              (:none)
-                let
-                    op-id $ generate-id!
-                    op-time $ host/now-ms
-                  reset! *reel $ typed/record-op updater @*reel (app.schema/decode-op op) op-id op-time
+            cond
+                = (enum-definition op) (Option :some app.schema/Op)
+                dispatch-resolved! $ decode-map-as op 'app.schema/Op
+              (= (enum-definition op) (Option :some typed/Control))
+                dispatch-resolved! $ decode-map-as op 'reel.typed/Control
+              true $ match (typed/decode-control op)
+                (:some control) (dispatch-resolved! control)
+                (:none)
+                  match (app.schema/decode-op op)
+                    (:some action) (dispatch-resolved! action)
+                    (:none) (eprintln "|unknown op:" op)
             , &unit
           :examples $ []
           :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
+        'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn dispatch-resolved! (op)
+            hint-fn $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
+            reset! *reel $ match op
+              (reel.typed/Control control) (typed/apply-control updater @*reel control)
+              (app.schema/Op action)
+                typed/record-op updater @*reel action (generate-id!) (host/now-ms)
+            , &unit
+          :examples $ []
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -378,20 +387,21 @@
             :buffer $ List String
           :examples $ []
           :schema $ quote StructDef
+        'LocalState $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion LocalState InputState KeyboardState
+          :examples $ []
+          :schema $ quote UnionDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
             :states (List respo.schema/CoordKey) Dynamic
             :hydrate-storage app.schema/Store
-            :reel/toggle
-            :reel/recall Number
-            :reel/run
-            :reel/step
-            :reel/merge
-            :reel/reset
-            :reel/remove Number
-            :unknown AnyEnum
+            :edit-state (List respo.schema/CoordKey) app.schema/LocalState
           :examples $ []
           :schema $ quote EnumDef
+        'ResolvedOp $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion ResolvedOp Op reel.typed/Control
+          :examples $ []
+          :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
             :states $ Map Tag Dynamic
@@ -401,14 +411,15 @@
           :code $ quote $ defn decode-op (op)
             match op
               (:states cursor data)
-                Op :states
+                Option :some $ Op :states
                   decode-map-as cursor $ List respo.schema/CoordKey
                   , data
               (:hydrate-storage data)
-                Op :hydrate-storage $ decode-store data
-              _ $ Op :unknown op
+                Option :some $ Op :hydrate-storage $ decode-store data
+              _ $ Option :none
           :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
+          :schema $ quote $ Fn AnyEnum
+            -> $ Option app.schema/Op
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (raw)
             decode-map-as
@@ -433,9 +444,15 @@
                   assoc-in (:states store) (conj cursor :data) data
                   Map Tag Dynamic
               (:hydrate-storage data) data
-              (:unknown original)
-                do (println "|unknown op:" original) store
-              _ $ do (println "|unknown op:" op) store
+              (:edit-state cursor data)
+                assoc store :states $ decode-map-as
+                  assoc-in (:states store) (conj cursor :data)
+                    match data
+                      (app.schema/InputState input)
+                        {} $ :inputs $ :inputs input
+                      (app.schema/KeyboardState keyboard)
+                        {} $ :buffer $ :buffer keyboard
+                  Map Tag Dynamic
           :examples $ []
           :schema $ quote $ Fn app.schema/Store app.schema/Op String Number (-> app.schema/Store)
       :ns $ %{} 'NsEntry (:doc |)
