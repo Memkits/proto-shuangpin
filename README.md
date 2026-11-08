@@ -13,7 +13,7 @@ _TODO_
 ### Calcit 0.38.0
 
 配对安装正式 Calcit 与 `@calcit/procs` 0.38.0，再安装模块、构建并刷新。
-正式模块为 Respo 0.19.5、Reel 0.10.0、UI 0.15.2、JS FFI 0.2.13 和 Router 0.12.2。
+正式模块为 Respo 0.19.5、Reel 0.11.0、UI 0.15.2、JS FFI 0.2.13 和 Router 0.12.2。
 键盘操作使用 `InputState | KeyboardState`，内部派发以 `Op | reel.typed/Control` 区分应用操作和回放控制。Reel 0.11.0 的面板和快捷键通过显式回调接收 `Control`。键盘布局、声调算法及存档格式沿用。
 
 ### 此前使用者影响：正式 Calcit 0.31.0
@@ -69,7 +69,7 @@ use `pr/<number>/<run-id>/<attempt>/` to isolate uploads between runs; productio
 keeps the existing prefix. COS action verification replaces the standalone CDN
 build test; keyboard and persistence business tests remain unchanged.
 
-COS 使用精确正式 tag v1.2.0 和 `public-base-url` 内置校验，不添加第二套 checker。安装器读取 `deps.cirru`，已有 `caps verify --toolchain` 核验版本。串行队列保留待处理运行，整个 job 限时 15 分钟、上传步骤限时 10 分钟；不取消正在上传的运行。生产与 PR/run/attempt 前缀、字体和存储键、原服务器同步不变。
+COS 使用精确正式 tag v1.3.0 和 `public-base-url` 内置校验，不添加第二套 checker。安装器读取 `deps.cirru`，已有 `caps verify --toolchain` 核验版本。串行队列保留待处理运行，整个 job 限时 15 分钟、上传步骤限时 10 分钟；不取消正在上传的运行。生产与 PR/run/attempt 前缀、字体和存储键、原服务器同步不变。
 
 Store 保留真实 Struct；旧 Map 别名 Reel 改为 `State<Op, Store>`，输入与 buffer
 按真实结构检查，缓存和保存内容继续保持原 Map 字段形状。缺失查询显式处理 Option，
