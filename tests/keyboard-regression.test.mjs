@@ -20,7 +20,7 @@ function buttons(node, found = []) {
 function session() {
   let db = store;
   let dispatched = 0;
-  const render = () => comp_container(new_reel(db));
+  const render = () => comp_container(new_reel(db), () => {});
   return {
     get db() { return db; }, get dispatched() { return dispatched; }, render,
     press(label) {
