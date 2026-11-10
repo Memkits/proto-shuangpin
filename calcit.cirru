@@ -18,10 +18,10 @@
         'StringHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait StringHost
             .replace3 $ Fn app.comp.container/StringHost app.comp.container/RegexHost
-              Fn String String String String & Dynamic $ -> String
+              Fn String String String String Number String $ -> String
               -> String
             .replace2 $ Fn app.comp.container/StringHost app.comp.container/RegexHost
-              Fn String String String & Dynamic $ -> String
+              Fn String String String Number String $ -> String
               -> String
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object) (:target :browser)
@@ -189,16 +189,16 @@
           :code $ quote $ defn markup-tone (x)
             let
                 x1 $ .replace3 (unsafe-coerce x StringHost) (make-regex "|([aoeiuü])(ng?)([→↗↺↘])$")
-                  fn (a b b2 c & args)
+                  fn (_match b b2 c _offset _input)
                     str (mark-vowel b c) b2
                 x2 $ .replace3 (unsafe-coerce x1 StringHost) (make-regex "|([aoeiuü])([aoeiuü])([→↗↺↘])$")
-                  fn (a b b2 c & args)
+                  fn (_match b b2 c _offset _input)
                     str (mark-vowel b c) b2
                 x3 $ .replace2 (unsafe-coerce x2 StringHost) (make-regex "|([aoeiuü])r([→↗↺↘])$")
-                  fn (a b c & args)
+                  fn (_match b c _offset _input)
                     str (mark-vowel b c) |r
               .replace2 (unsafe-coerce x3 StringHost) (make-regex "|([aoeiuü])([→↗↺↘])$")
-                fn (a b c & args) (mark-vowel b c)
+                fn (_match b c _offset _input) (mark-vowel b c)
           :examples $ []
           :schema $ quote $ Fn String (-> String) (:features :js-ffi)
         'request-fullscreen! $ %{} 'CodeEntry (:doc |)
