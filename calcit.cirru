@@ -61,10 +61,10 @@
                         (:backspace)
                           Op :edit-state cursor $ app.schema/InputState :inputs $ butlast inputs
                 if dev?
-                  Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control!
-                  Option :none
+                  Some $ comp-typed-reel (>> states :reel) reel ({}) on-control!
+                  , None
           :examples $ []
-          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
+          :schema $ quote $ Fn (reel.typed/State Op app.schema/Store)
             Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
         'comp-keyboard $ %{} 'CodeEntry (:doc |)
@@ -121,13 +121,13 @@
                           <> key
           :examples $ []
           :schema $ quote $ Fn (Map Dynamic Dynamic)
-            Fn app.schema/KeyboardInput $ -> app.schema/Op
+            Fn KeyboardInput $ -> Op
             -> respo.schema/Component
         'make-regex $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn make-regex (pattern)
             unsafe-coerce (new js/RegExp pattern) RegexHost
           :examples $ []
-          :schema $ quote $ Fn String (-> app.comp.container/RegexHost) (:features :js-ffi)
+          :schema $ quote $ Fn String (-> RegexHost) (:features :js-ffi)
         'mark-vowel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mark-vowel (vowel tone)
             let
@@ -268,7 +268,7 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel app.schema/store)
           :examples $ []
-          :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
+          :schema $ quote $ Ref (typed/State app.schema/Op app.schema/Store)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ println |Dispatch: op
@@ -311,7 +311,7 @@
         'on-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn on-control! (control) (dispatch-resolved! control)
           :examples $ []
-          :schema $ quote $ Fn reel.typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             storage-set!
@@ -383,9 +383,7 @@
           :examples $ []
           :schema $ quote UnionDef
         'Op $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defenum Op
-            :states (List respo.schema/CoordKey) Dynamic
-            :hydrate-storage app.schema/Store
+          :code $ quote $ defenum Op (:hydrate-storage app.schema/Store)
             :edit-state (List respo.schema/CoordKey) app.schema/LocalState
           :examples $ []
           :schema $ quote EnumDef
@@ -404,12 +402,12 @@
               {} $ :states $ .unwrap (get raw :states)
               , Store
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> app.schema/Store)
+          :schema $ quote $ Fn Input (-> Store) (:generics Input)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states $ {} $ :cursor ([])
           :examples $ []
-          :schema $ quote app.schema/Store
+          :schema $ quote Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.updater $ %{} 'FileEntry
@@ -417,10 +415,6 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
             match op
-              (:states cursor data)
-                assoc store :states $ decode-map-as
-                  assoc-in (:states store) (conj cursor :data) data
-                  Map Tag Dynamic
               (:hydrate-storage data) data
               (:edit-state cursor data)
                 assoc store :states $ decode-map-as
