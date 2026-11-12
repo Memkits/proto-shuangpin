@@ -53,8 +53,11 @@
                 div
                   {} $ :style $ .merge ui/row-center
                     {} $ :padding |16px
-                  comp-keyboard (>> states :keyboard)
-                    fn (input-action)
+                  let
+                      keyboard-states $ >> states :keyboard
+                      keyboard-cursor $ state-cursor keyboard-states
+                      keyboard-state $ pick-state keyboard-states app.schema/KeyboardState $ app.schema/KeyboardState :buffer ([])
+                    comp-keyboard keyboard-cursor keyboard-state $ fn (input-action)
                       match input-action
                         (:append chunk)
                           Op :edit-state cursor $ app.schema/InputState :inputs $ conj inputs (join-string chunk |)
@@ -68,15 +71,8 @@
             Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
         'comp-keyboard $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defcomp comp-keyboard (states on-input)
+          :code $ quote $ defcomp comp-keyboard (cursor state on-input)
             let
-                cursor $ decode-map-as
-                  .unwrap-or (get states :cursor) ([])
-                  List respo.schema/CoordKey
-                state $ decode-map-as
-                  .unwrap-or (get states :data)
-                    {} $ :buffer $ []
-                  , app.schema/KeyboardState
                 buffer $ :buffer state
                 keyboard $ match (.len buffer) (0 initial-keyboard) (1 vowel-keyboard) (2 tone-keyboard)
                   _ $ []
@@ -120,7 +116,7 @@
                                 _ $ println |TODO
                           <> key
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic)
+          :schema $ quote $ Fn (List respo.schema/CoordKey) app.schema/KeyboardState
             Fn KeyboardInput $ -> Op
             -> respo.schema/Component
         'make-regex $ %{} 'CodeEntry (:doc |)
@@ -220,7 +216,7 @@
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
             respo-ui.core :refer $ hsl
-            respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input
+            respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input state-cursor pick-state
             respo.comp.space :refer $ =<
             reel.comp.reel :refer $ comp-typed-reel
             app.config :refer $ dev? initial-keyboard vowel-keyboard tone-keyboard
@@ -391,9 +387,13 @@
           :code $ quote $ defunion ResolvedOp Op reel.typed/Control
           :examples $ []
           :schema $ quote UnionDef
+        'StateValue $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion StateValue (List respo.schema/CoordKey) (Map respo.schema/CoordKey StateValue)
+          :examples $ []
+          :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ Map Tag Dynamic
+            :states $ Map Tag StateValue
           :examples $ []
           :schema $ quote StructDef
         'decode-store $ %{} 'CodeEntry (:doc |)
@@ -424,7 +424,7 @@
                         {} $ :inputs $ :inputs input
                       (app.schema/KeyboardState keyboard)
                         {} $ :buffer $ :buffer keyboard
-                  Map Tag Dynamic
+                  Map Tag app.schema/StateValue
           :examples $ []
           :schema $ quote $ Fn app.schema/Store app.schema/Op String Number (-> app.schema/Store)
       :ns $ %{} 'NsEntry (:doc |)
