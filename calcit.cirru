@@ -387,9 +387,13 @@
           :code $ quote $ defunion ResolvedOp Op reel.typed/Control
           :examples $ []
           :schema $ quote UnionDef
+        'StateValue $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion StateValue (List respo.schema/CoordKey) (Map respo.schema/CoordKey StateValue)
+          :examples $ []
+          :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ Map Tag Dynamic
+            :states $ Map Tag StateValue
           :examples $ []
           :schema $ quote StructDef
         'decode-store $ %{} 'CodeEntry (:doc |)
@@ -420,7 +424,7 @@
                         {} $ :inputs $ :inputs input
                       (app.schema/KeyboardState keyboard)
                         {} $ :buffer $ :buffer keyboard
-                  Map Tag Dynamic
+                  Map Tag app.schema/StateValue
           :examples $ []
           :schema $ quote $ Fn app.schema/Store app.schema/Op String Number (-> app.schema/Store)
       :ns $ %{} 'NsEntry (:doc |)

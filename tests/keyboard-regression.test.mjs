@@ -73,5 +73,10 @@ test("storage decoder supports legacy maps and saved Structs and rejects malform
   const legacy = map(t.states, map(t.cursor, c._$L_()));
   assert.ok(c._$e_(decode_store(legacy), store));
   assert.ok(c._$e_(decode_store(c.parse_cirru_edn(c.format_cirru_edn(store))), store));
+  const s = session();
+  s.press("b"); s.press("a"); s.press("→"); s.press("m");
+  const populated = c.parse_cirru_edn(c.format_cirru_edn(s.db));
+  assert.ok(c._$e_(decode_store(populated), s.db));
+  assert.ok(c._$e_(decode_store(map(t.states, get(populated, t.states))), s.db));
   for (const invalid of ["not a store", map(), map(t.states, "not states"), map(t.states, map("invalid string key", "value"))]) assert.throws(() => decode_store(invalid));
 });
