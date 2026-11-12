@@ -70,6 +70,7 @@
           :schema $ quote $ Fn (reel.typed/State Op app.schema/Store)
             Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
+            :features :io
         'comp-keyboard $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-keyboard (cursor state on-input)
             let
@@ -119,6 +120,7 @@
           :schema $ quote $ Fn (List respo.schema/CoordKey) app.schema/KeyboardState
             Fn KeyboardInput $ -> Op
             -> respo.schema/Component
+            :features :io
         'make-regex $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn make-regex (pattern)
             unsafe-coerce (new js/RegExp pattern) RegexHost
@@ -180,7 +182,7 @@
                   , "|ǜ"
                 true $ str vowel tone
           :examples $ []
-          :schema $ quote $ Fn String String (-> String)
+          :schema $ quote $ Fn String String (-> String) (:features :io)
         'markup-tone $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn markup-tone (x)
             let
@@ -196,7 +198,7 @@
               .replace2 (unsafe-coerce x3 StringHost) (make-regex "|([aoeiuü])([→↗↺↘])$")
                 fn (_match b c _offset _input) (mark-vowel b c)
           :examples $ []
-          :schema $ quote $ Fn String (-> String) (:features :js-ffi)
+          :schema $ quote $ Fn String (-> String) (:features :io :js-ffi)
         'request-fullscreen! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn request-fullscreen! ()
             browser/element-request-fullscreen! $ .unwrap $ browser/document-body
@@ -270,7 +272,7 @@
             when config/dev? $ println |Dispatch: op
             dispatch-resolved! op
           :examples $ []
-          :schema $ quote $ Fn app.schema/Op (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn app.schema/Op (-> Unit) (:features :io :js-ffi :state)
         'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch-resolved! (op)
             reset! *reel $ match op
@@ -279,7 +281,7 @@
                 typed/record-op updater @*reel action (generate-id!) (host/now-ms)
             , &unit
           :examples $ []
-          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi :state)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -298,7 +300,7 @@
             println "|App started."
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def mount-target
             .unwrap $ dom/query-selector |.app
@@ -307,14 +309,14 @@
         'on-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn on-control! (control) (dispatch-resolved! control)
           :examples $ []
-          :schema $ quote $ Fn typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit) (:features :state)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             storage-set!
               .unwrap $ get config/site :storage-key
               format-cirru-edn $ :store @*reel
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -325,14 +327,14 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render-with! mount-target
               fn () $ comp-container @*reel on-control!
               , dispatch!
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             set-interval! cb $ * 1000 duration
