@@ -68,9 +68,9 @@
                   , None
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State Op app.schema/Store)
-            Fn reel.typed/Control $ -> Unit
+            Fn reel.typed/Control (-> Unit) (:features :state)
             -> respo.schema/Component
-            :features :io
+            :features :io :js-ffi :state
         'comp-keyboard $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-keyboard (cursor state on-input)
             let
@@ -341,8 +341,9 @@
             , &unit
           :examples $ []
           :schema $ quote $ Fn Number
-            Fn $ -> Unit
+            Fn (-> Unit) (:features :state)
             -> Unit
+            :features :js-ffi :state
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
