@@ -12,7 +12,7 @@ _TODO_
 
 ### Calcit 0.44.0
 
-配对安装正式 Calcit 与 `@calcit/procs` 0.44.0，再安装模块、构建并刷新。
+配对安装正式 Calcit 与 `@calcit/procs` 0.44.0，以及 Reel 0.11.5、UI 0.15.7、Respo 0.19.13、JS-FFI 0.2.19 和传递 Router 0.12.11，再安装模块、构建并刷新。
 正式模块为 Respo 0.19.11、Reel 0.11.3、UI 0.15.5、JS FFI 0.2.18 和 Router 0.12.9。
 键盘操作使用 `InputState | KeyboardState`，内部派发以 `Op | reel.typed/Control` 区分应用操作和回放控制。Reel 0.11.3 的面板和快捷键通过显式回调接收 `Control`。键盘布局、声调算法及存档格式沿用。
 
