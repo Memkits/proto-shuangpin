@@ -10,11 +10,10 @@ Demo http://r.tiye.me/Memkits/shuangpin/ .
 
 _TODO_
 
-### Calcit 0.44.0
+### Calcit 0.45.1
 
-配对安装正式 Calcit 与 `@calcit/procs` 0.44.0，以及 Reel 0.11.5、UI 0.15.7、Respo 0.19.13、JS-FFI 0.2.19 和传递 Router 0.12.11，再安装模块、构建并刷新。
-正式模块为 Respo 0.19.11、Reel 0.11.3、UI 0.15.5、JS FFI 0.2.18 和 Router 0.12.9。
-键盘操作使用 `InputState | KeyboardState`，内部派发以 `Op | reel.typed/Control` 区分应用操作和回放控制。Reel 0.11.3 的面板和快捷键通过显式回调接收 `Control`。键盘布局、声调算法及存档格式沿用。
+配对安装正式 Calcit 与 `@calcit/procs` 0.45.1，以及 Reel 0.11.9、UI 0.16.5、Respo 0.19.18、JS-FFI 0.2.24 和传递 Router 0.12.17，再安装模块、构建并刷新。
+键盘操作使用 `InputState | KeyboardState`，内部派发以 `Op | reel.typed/Control` 区分应用操作和回放控制。Reel 的面板和快捷键通过显式回调接收 `Control`。键盘布局、声调算法及存档格式沿用。
 
 ### 此前使用者影响：正式 Calcit 0.31.0
 
@@ -53,7 +52,7 @@ all-defs 与完整 strict 通过。项目没有附着测试，不把空选择当
 
 https://github.com/calcit-lang/respo-calcit-workflow
 
-Use paired Calcit/procs 0.44.0, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
+Use paired Calcit/procs 0.45.1, Node 24 / Yarn 4.18.0 / Vite 8.3.3,
 `caps --ci --strict`, `yarn install --immutable`,
 `yarn build`, and `node --test tests/*.test.mjs`. Only `calcit.cirru` and
 `deps.cirru` are canonical; CI rejects retired `compact.cirru` / `package.cirru`.
