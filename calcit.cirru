@@ -85,12 +85,12 @@
                   <> $ join-string buffer |
                 div
                   {} $ :style ui/row-center
-                  list-> ({})
+                  respo.core/keyed-> ({})
                     -> keyboard $ map-indexed $ fn (idx row)
-                      [] idx $ list->
+                      respo.core/keyed-element idx $ respo.core/keyed->
                         {} $ :style ui/row
                         -> row $ map-indexed $ fn (j key)
-                          [] j $ div
+                          respo.core/keyed-element j $ div
                             {} (:class-name |keystroke) (:style style-keystroke)
                               :on-click $ fn (e d!)
                                 when (not= key |.)
@@ -103,10 +103,10 @@
                                         d! $ Op :edit-state cursor $ app.schema/KeyboardState :buffer ([])
                                       d! $ Op :edit-state cursor $ app.schema/KeyboardState :buffer chunk
                             <> key
-                  list-> ({})
+                  respo.core/keyed-> ({})
                     -> ([] "|⌫" |. |. "|⚁")
                       map-indexed $ fn (idx key)
-                        [] idx $ div
+                        respo.core/keyed-element idx $ div
                           {} (:style style-keystroke)
                             :on-click $ fn (e d!)
                               match key
@@ -218,7 +218,7 @@
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
             respo-ui.core :refer $ hsl
-            respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input state-cursor pick-state
+            respo.core :refer $ defcomp defeffect <> >> div button textarea span input state-cursor pick-state
             respo.comp.space :refer $ =<
             reel.comp.reel :refer $ comp-typed-reel
             app.config :refer $ dev? initial-keyboard vowel-keyboard tone-keyboard
